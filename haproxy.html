@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!--<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>-->
+
+  <link href='css/bootstrap.css' rel='stylesheet' type='text/css'/>
+
+  <style type="text/css">
+    body {
+      margin: 10px;
+    }
+
+    .configuration {
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .section:first-child {
+      margin-top: 0;
+    }
+
+    .title {
+      color: yellow;
+    }
+
+    .directive {
+    }
+
+    .setting {
+      color: #98fb98;
+    }
+
+    .value {
+      display: inline;
+      margin-left: 8px;
+      color: #7b68ee;
+    }
+
+    .note {
+      text-decoration: none;
+      border-bottom: 1px dotted;
+      cursor: pointer;
+    }
+
+    .section, .directive {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .highlight {
+      background-color: #282828;
+    }
+
+  </style>
+
+  <script src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+  <script src='js/bootstrap.js'></script>
+</head>
+<body>
+<div class='configuration'>
+  <div class='row'>
+    <div class='span14'>
+      <div class='section'>
+        <div class='title'><a href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3'>global</a></div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3-nbproc'>nbproc</a>
+
+          <div class='value'>1</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3-maxconn'>maxconn</a>
+
+          <div class='value'>65536</div>
+        </div>
+      </div>
+
+      <div class='section'>
+        <div class='title'>defaults</div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout connect'>timeout connect</a>
+
+          <div class='value'>5s</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout queue'>timeout queue</a>
+
+          <div class='value'>5s</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout server'>timeout server</a>
+
+          <div class='value'>30s</div>
+        </div>
+        <div class='directive row ws fs'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout tunnel'>timeout tunnel</a>
+
+          <div class='value'>1h</div>
+        </div>
+      </div>
+
+      <div class='section redirect'>
+        <div class='title'>frontend www</div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-bind'>bind</a>
+
+          <div class='value'>0.0.0.0:80</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-mode'>mode</a>
+
+          <div class='value'>http</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout client'>timeout client</a>
+
+          <div class='value'>5s</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-redirect'>redirect</a>
+
+          <div class='value'>prefix <span class='note' data-note='1'>https://example.com</span></div>
+        </div>
+      </div>
+
+      <div class='section'>
+        <div class='title'>frontend wwws</div>
+        <div class='directive row ssl'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-bind'>bind</a>
+
+          <div class='value'>0.0.0.0:443 ssl crt <span class='note' data-note='2'>/etc/haproxy/server.pem</span></div>
+        </div>
+        <div class='directive row ws fs'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout client'>timeout client</a>
+
+          <div class='value'>1h</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-default_backend'>default_backend</a>
+
+          <div class='value'>www_backend</div>
+        </div>
+        <br/>
+
+        <div class='directive row ws'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-acl'>acl</a>
+
+          <div class='value'>is_websocket <a href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#7-hdr'>hdr</a>(Upgrade) -i WebSocket</div>
+        </div>
+        <div class='directive row ws'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-use_backend'>use_backend</a>
+
+          <div class='value'>websocket_backend if is_websocket</div>
+        </div>
+        <br/>
+
+        <div class='directive row fs'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-tcp-request inspect-delay'>tcp-request inspect-delay</a>
+
+          <div class='value'>500ms</div>
+        </div>
+        <div class='directive row fs'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-tcp-request content'>tcp-request content</a>
+
+          <div class='value'>accept if HTTP</div>
+        </div>
+        <div class='directive row fs'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-use_backend'>use_backend</a>
+
+          <div class='value'>flashsocket_backend if !HTTP</div>
+        </div>
+      </div>
+
+      <div class='section fs'>
+        <div class='title'>frontend flash_policy</div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-bind'>bind</a>
+
+          <div class='value'>0.0.0.0:843</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout client'>timeout client</a>
+
+          <div class='value'> 5s</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href=''>default_backend</a>
+
+          <div class='value'>nodejs_flashpolicy</div>
+        </div>
+      </div>
+    </div>
+
+    <div class='span14 offset1'>
+      <div class='section'>
+        <div class='title'>backend www_backend</div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-mode'>mode</a>
+
+          <div class='value'>http</div>
+        </div>
+        <div class='directive row monitoring'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-stats enable'>stats enable</a>
+        </div>
+        <div class='directive row monitoring'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-stats uri'>stats uri</a>
+
+          <div class='value'>/haproxy</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-option forwardfor'>option forwardfor</a>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-reqadd'>reqadd</a>
+
+          <div class='value'>x-forwarded-proto:\ https</div>
+        </div>
+        <br/>
+
+        <div class='directive row'>
+          <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
+
+          <div class='value'>server1 backend:3000 weight 1 maxconn 8192 check</div>
+        </div>
+      </div>
+
+      <div class='section ws'>
+        <div class='title'>backend websocket_backend</div>
+        <div class='directive row'>
+          <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-mode'>mode</a>
+
+          <div class='value'>http</div>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-option forwardfor'>option forwardfor</a>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-option http-server-close'>option http-server-close</a>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#option forceclose'>option forceclose</a>
+        </div>
+        <div class='directive row'>
+          <a class='setting offset1 span5' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-no option httpclose'>no option httpclose</a>
+        </div>
+        <br/>
+
+        <div class='directive row'>
+          <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
+
+          <div class='value'>server1 backend:3000 weight 1 maxconn 8192 check</div>
+        </div>
+      </div>
+
+      <div class='section fs'>
+        <div class='title'>backend flashsocket_backend</div>
+        <div class='directive row'>
+          <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
+
+          <div class='value'>server1 backend:3000 weight 1 maxconn 8192 check</div>
+        </div>
+      </div>
+
+      <div class='section fs'>
+        <div class='title'>backend nodejs_flashpolicy</div>
+        <div class='directive row'>
+          <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
+
+          <div class='value'>server1 backend:10843 maxconn 8192 check</div>
+        </div>
+      </div>
+    </div>
+    <div class='span10 offset1'>
+      <h3>Facets</h3>
+      <ul class='unstyled'>
+        <li class='facet' data-facet='ws'>Websockets</li>
+        <li class='facet' data-facet='fs'>Flash sockets</li>
+        <li class='facet' data-facet='redirect'>Redirect insecure connections</li>
+        <li class='facet' data-facet='ssl'>SSL</li>
+        <li class='facet' data-facet='monitoring'>Monitoring</li>
+      </ul>
+
+      <h3>Notes</h3>
+      <div id="notes">Find something with notes.</div>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+  $(document).ready(function () {
+    var notes = {
+      1: "Replace this url with the hostname for your site.",
+      2: "Concat your crt, key (password removed), and any other crts in the chain."
+    };
+
+    $('.facet[data-facet]').hover(
+        function () {
+          $(this).addClass('highlight');
+          $('.' + $(this).data('facet')).addClass('highlight');
+        },
+        function () {
+          $(this).removeClass('highlight');
+          $('.' + $(this).data('facet')).removeClass('highlight');
+        });
+
+    $('[data-note]').hover(
+        function() {
+          $('#notes').html(notes[$(this).data('note')]);
+        },
+        function() {
+          $('#notes').html("Find something with notes.");
+        }
+    );
+  });
+</script>
+</body>
+</html>
