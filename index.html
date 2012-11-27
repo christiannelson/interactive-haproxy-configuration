@@ -40,8 +40,12 @@
 
     .note {
       text-decoration: none;
-      border-bottom: 1px dotted;
+      border-bottom: 1px dotted #3f23e6;
       cursor: pointer;
+    }
+
+    .note-content {
+      display: none;
     }
 
     .section, .directive {
@@ -121,7 +125,12 @@
         <div class='directive row'>
           <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-redirect'>redirect</a>
 
-          <div class='value'>prefix <span class='note' data-note='1'>https://example.com</span></div>
+          <div class='value'>prefix <span class='note'>https://example.com</span>
+            <div class='note-content'>
+              <p>Replace the hostname with yours.</p>
+              <p>The incoming path and params will be included in the redirect. For example, http://example.com/thing?id=2 will redirect to https://example.com/thing?id=2.</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -130,7 +139,12 @@
         <div class='directive row ssl'>
           <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-bind'>bind</a>
 
-          <div class='value'>0.0.0.0:443 ssl crt <span class='note' data-note='2'>/etc/haproxy/server.pem</span></div>
+          <div class='value'>0.0.0.0:443 ssl crt <span class='note'>/etc/haproxy/server.pem</span>
+            <div class='note-content'>
+              <p>Concat your crt, key (password removed), and any other crts in the chain.</p>
+              <p>Avoid relative paths unless you're certain of haproxy's working directory.</p>
+            </div>
+          </div>
         </div>
         <div class='directive row ws fs'>
           <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout client'>timeout client</a>
@@ -215,7 +229,11 @@
         <div class='directive row'>
           <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-reqadd'>reqadd</a>
 
-          <div class='value'>x-forwarded-proto:\ https</div>
+          <div class='value'><span class='note'>x-forwarded-proto:\ https</span>
+            <div class='note-content'>
+              <p>This header will help most web frameworks (express, rails, sinatra) when they generate absolute urls. The generated urls will include the right protocol (i.e. https).</p>
+            </div>
+          </div>
         </div>
         <br/>
 
@@ -250,7 +268,11 @@
         <div class='directive row'>
           <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
 
-          <div class='value'>server1 backend:3000 weight 1 maxconn 8192 check</div>
+          <div class='value'>server1 backend:<span class='note'>3000</span>
+            <div class='note-content'>
+              <p>This is the default port for node.js apps using express.</p>
+            </div>
+            weight 1 maxconn 8192 check</div>
         </div>
       </div>
 
@@ -259,7 +281,11 @@
         <div class='directive row'>
           <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
 
-          <div class='value'>server1 backend:3000 weight 1 maxconn 8192 check</div>
+          <div class='value'>server1 backend:<span class='note'>3000</span>
+            <div class='note-content'>
+              <p>This is the default port for node.js apps using express.</p>
+            </div>
+            weight 1 maxconn 8192 check</div>
         </div>
       </div>
 
@@ -268,7 +294,11 @@
         <div class='directive row'>
           <a class='setting offset1' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-server'>server</a>
 
-          <div class='value'>server1 backend:10843 maxconn 8192 check</div>
+          <div class='value'>server1 backend:<span class='note'>10843</span>
+            <div class='note-content'>
+              <p>This is the default port socket.io uses for the flash policy.</p>
+            </div>
+            maxconn 8192 check</div>
         </div>
       </div>
     </div>
@@ -292,11 +322,6 @@
 
 <script>
   $(document).ready(function () {
-    var notes = {
-      1: "Replace this url with the hostname for your site.",
-      2: "Concat your crt, key (password removed), and any other crts in the chain."
-    };
-
     $('.facet[data-facet]').hover(
         function () {
           $(this).addClass('highlight');
@@ -307,9 +332,9 @@
           $('.' + $(this).data('facet')).removeClass('highlight');
         });
 
-    $('[data-note]').hover(
+    $('.note').hover(
         function() {
-          $('#notes').html(notes[$(this).data('note')]);
+          $('#notes').html($(this).siblings('.note-content').html());
         },
         function() {
           $('#notes').html("Find something with notes.");
