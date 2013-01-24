@@ -72,7 +72,7 @@
 
     .configuration {
       padding-bottom: 30px;
-      border-bottom: 1px solid #555;
+      border-bottom: 1px solid #777;
     }
 
     .more, .more a {
@@ -94,14 +94,14 @@
     <li class='facet' data-facet='ws'>Websockets</li>
     <li class='facet' data-facet='fs'>Flash sockets</li>
     <li class='facet' data-facet='redirect'>Redirect insecure connections</li>
-    <li class='facet' data-facet='ssl'>SSL</li>
+    <li class='facet' data-facet='ssl'>SSL Termination</li>
     <li class='facet' data-facet='monitoring'>Monitoring</li>
   </ul>
 </div>
 
 <div class='span14 offset1'>
   <div class='section'>
-    <div class='title'><a href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3'>global</a></div>
+    <div class='title'><a class="ajax-modal" data-backdrop="true" data-controls-modal="res-modal" data-keyboard="true" href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3'>global</a></div>
     <div class='directive row'>
       <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3-nbproc'>nbproc</a>
 
@@ -138,7 +138,7 @@
     </div>
   </div>
 
-  <div class='section redirect'>
+  <div class='section'>
     <div class='title'>frontend www</div>
     <div class='directive row'>
       <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-bind'>bind</a>
@@ -155,7 +155,7 @@
 
       <div class='value'>5s</div>
     </div>
-    <div class='directive row'>
+    <div class='directive row redirect'>
       <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-redirect'>redirect</a>
 
       <div class='value'>prefix <span class='note'>https://example.com</span>
@@ -258,10 +258,10 @@
 
       <div class='value'>/haproxy</div>
     </div>
-    <div class='directive row'>
+    <div class='directive row ssl'>
       <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-option forwardfor'>option forwardfor</a>
     </div>
-    <div class='directive row'>
+    <div class='directive row ssl'>
       <a class='setting offset1 span4' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-reqadd'>reqadd</a>
 
       <div class='value'><span class='note'>x-forwarded-proto:\ https</span>
@@ -349,13 +349,16 @@
 </div>
 <p class="more">Read more at <a href="http://blog.carbonfive.com/">The Carbon Emitter</a>.</p>
 
+<div class="modal hide fade" id="res-modal"></div>
+
 <script>
   $(document).ready(function () {
     $('.facet[data-facet]').on('click',
-        function () {
-          $(this).toggleClass('highlight');
-          $('.' + $(this).data('facet')).toggleClass('highlight-' + $(this).data('facet'), $(this).hasClass('highlight'));
-        });
+      function () {
+        $(this).toggleClass('highlight');
+        $('.' + $(this).data('facet')).toggleClass('highlight-' + $(this).data('facet'), $(this).hasClass('highlight'));
+      }
+    );
 
     $('.note').popover({
       html: true,
@@ -366,6 +369,12 @@
       content: function () {
         return $(this).siblings('.note-content').html();
       }
+    });
+
+    $('.ajax-modal').live('click', function() {
+      var url = $(this).attr('url');
+      var modal_id = $(this).attr('data-controls-modal');
+      $('#' + modal_id).load(url).modal('show');
     });
   });
 </script>
