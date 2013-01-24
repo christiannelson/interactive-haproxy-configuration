@@ -8,6 +8,7 @@
   <style type="text/css">
     body {
       margin: 10px;
+      color: #ddd;
     }
 
     .configuration {
@@ -21,14 +22,15 @@
       margin-top: 0;
     }
 
-    .title {
+    .title, .title a {
+      padding-left: 5px;
       color: yellow;
     }
 
     .directive {
     }
 
-    .setting {
+    .setting, .setting:hover {
       color: #98fb98;
     }
 
@@ -54,8 +56,28 @@
       transition: all 0.4s ease-in-out;
     }
 
-    .highlight {
+    .facet:hover {
+      cursor: pointer;
+      background-color: #3b3b3b;
+    }
+
+    .facet.highlight {
       background-color: #282828;
+    }
+
+    .highlight-ws, .highlight-fs, .highlight-ssl, .highlight-redirect, .highlight-monitoring {
+      background-color: #282828;
+      box-shadow: 0 0 10px #282828;
+    }
+
+    .configuration {
+      padding-bottom: 30px;
+      border-bottom: 1px solid #555;
+    }
+
+    .more, .more a {
+      margin-top: 5px;
+      color: #777;
     }
 
   </style>
@@ -65,8 +87,19 @@
 </head>
 <body>
 <div class='configuration'>
+<h1>Interactive HAProxy Configuration</h1>
 <div class='row'>
-<div class='span14'>
+  <div class='span7'>
+  <ul class='unstyled'>
+    <li class='facet' data-facet='ws'>Websockets</li>
+    <li class='facet' data-facet='fs'>Flash sockets</li>
+    <li class='facet' data-facet='redirect'>Redirect insecure connections</li>
+    <li class='facet' data-facet='ssl'>SSL</li>
+    <li class='facet' data-facet='monitoring'>Monitoring</li>
+  </ul>
+</div>
+
+<div class='span14 offset1'>
   <div class='section'>
     <div class='title'><a href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#3'>global</a></div>
     <div class='directive row'>
@@ -312,32 +345,16 @@
     </div>
   </div>
 </div>
-<div class='span10 offset1'>
-  <h3>Facets</h3>
-  <ul class='unstyled'>
-    <li class='facet' data-facet='ws'>Websockets</li>
-    <li class='facet' data-facet='fs'>Flash sockets</li>
-    <li class='facet' data-facet='redirect'>Redirect insecure connections</li>
-    <li class='facet' data-facet='ssl'>SSL</li>
-    <li class='facet' data-facet='monitoring'>Monitoring</li>
-  </ul>
-
 </div>
 </div>
-
-
-</div>
+<p class="more">Read more at <a href="http://blog.carbonfive.com/">The Carbon Emitter</a>.</p>
 
 <script>
   $(document).ready(function () {
-    $('.facet[data-facet]').hover(
+    $('.facet[data-facet]').on('click',
         function () {
-          $(this).addClass('highlight');
-          $('.' + $(this).data('facet')).addClass('highlight');
-        },
-        function () {
-          $(this).removeClass('highlight');
-          $('.' + $(this).data('facet')).removeClass('highlight');
+          $(this).toggleClass('highlight');
+          $('.' + $(this).data('facet')).toggleClass('highlight-' + $(this).data('facet'), $(this).hasClass('highlight'));
         });
 
     $('.note').popover({
@@ -350,15 +367,6 @@
         return $(this).siblings('.note-content').html();
       }
     });
-
-//    $('.note').hover(
-//        function() {
-//          $('#notes').html($(this).siblings('.note-content').html());
-//        },
-//        function() {
-//          $('#notes').html("Find something with notes.");
-//        }
-//    );
   });
 </script>
 </body>
