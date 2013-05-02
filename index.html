@@ -3,17 +3,20 @@
 <head>
   <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
   <link href='css/normalize.css' rel='stylesheet' type='text/css'/>
+  <link href='css/bootstrap.css' rel='stylesheet' type='text/css'/>
 
   <style type="text/css">
     .clearfix {
       *zoom: 1;
     }
+
     .clearfix:before,
     .clearfix:after {
       display: table;
       content: "";
       line-height: 0;
     }
+
     .clearfix:after {
       clear: both;
     }
@@ -100,6 +103,7 @@
       margin-left: 5px;
       padding-right: 5px;
     }
+
     .value, .value a {
       color: #7b68ee;
     }
@@ -147,7 +151,7 @@
   </style>
 
   <script src='js/jquery.js'></script>
-  <!--<script src='js/bootstrap.js'></script>-->
+  <script src='js/bootstrap.js'></script>
 </head>
 
 <body>
@@ -292,7 +296,11 @@
     <div class='directive'>
       <a class='setting' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-bind'>bind</a>
 
-      <div class='value'>0.0.0.0:843</div>
+      <div class='value'>0.0.0.0:<span class='note'>843</span>
+        <div class='note-content'>
+          <p>This is the stadnard port where the flash client looks for the flash policy.</p>
+        </div>
+      </div>
     </div>
     <div class='directive'>
       <a class='setting' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-timeout client'>timeout client</a>
@@ -331,6 +339,7 @@
       <div class='value'><span class='note'>x-forwarded-proto:\ https</span>
         <div class='note-content'>
           <p>This header will help most web frameworks (express, rails, sinatra) when they generate absolute urls. The generated urls will include the right protocol (i.e. https).</p>
+          <p>The upside is that you can avoid conditional code in your application for handling https. Your application really shouldn't be doing that anyway.</p>
         </div>
       </div>
     </div>
@@ -412,9 +421,7 @@
 </div>
 </div>
 
-<p class="more">Read more at <a href="http://blog.carbonfive.com/">The Carbon Emitter</a>.</p>
-
-<div class="modal hide fade" id="res-modal"></div>
+<p class="more">Read more at <a href="http://blog.carbonfive.com/2013/05/02/using-haproxy-with-socket-io-and-ssl">The Carbon Emitter</a>.</p>
 
 <script>
   $('a').attr('target', '_blank');
@@ -429,6 +436,7 @@
 
     $('.note').popover({
       html: true,
+      animation: false,
       trigger: 'hover',
       title: function () {
         return $(this).html();
@@ -436,12 +444,6 @@
       content: function () {
         return $(this).siblings('.note-content').html();
       }
-    });
-
-    $('.ajax-modal').live('click', function () {
-      var url = $(this).attr('url');
-      var modal_id = $(this).attr('data-controls-modal');
-      $('#' + modal_id).load(url).modal('show');
     });
   });
 </script>
