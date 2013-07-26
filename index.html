@@ -226,11 +226,10 @@
     </div>
     <div class='directive ssl'>
       <a class='setting' href='http://cbonte.github.com/haproxy-dconv/configuration-1.5.html#4-redirect'>redirect</a>
-
-      <div class='value'>prefix <span class='note'>https://example.com</span>
+       
+      <div class='value'><span class='note'>scheme https if !{ ssl_fc }</span>
         <div class='note-content'>
-          <p>Replace the hostname with yours.</p>
-
+          <p>Redirect non-http requests to https in a general fashion (no need to hardcode hostnames).</p> 
           <p>The incoming path and params will be included in the redirect. For example, http://example.com/thing?id=2 will redirect to https://example.com/thing?id=2.</p>
         </div>
       </div>
